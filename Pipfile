@@ -7,6 +7,8 @@ name = "pypi"
 
 [packages]
 flask = '*'
-
+flask_cors = '*'
+nltk = '*'
+codecs = '*'
 
 [dev-packages]
