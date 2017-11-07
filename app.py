@@ -1,12 +1,12 @@
 from flask import Flask
 from flask import request, jsonify, render_template
-#from voikko import lemmatisoi
+from voikko import lemmatisoi
 app = Flask(__name__)
 
 
 @app.route("/api", methods=['POST'])
 def post_voikko():
-#    lemmatized = lemmatisoi( request.json.get('lemmat') )
+    lemmatized = lemmatisoi( request.json.get('lemmat') )
     return jsonify({'data': lemmatized })
 
 @app.route('/')
