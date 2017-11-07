@@ -1,17 +1,18 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-import libvoikko, codecs
-from nltk.tokenize import word_tokenize
+from flask import Flask
+from flask import request, jsonify, render_template
+#from voikko import lemmatisoi
+app = Flask(__name__)
 
-v = libvoikko.Voikko(u"fi")
 
-def lemmatisoi( text_input ):
-    lemmas = []
-    for word in word_tokenize( text_input ):
+#@app.route("/api", methods=['POST'])
+#def post_voikko():
+#    lemmatized = lemmatisoi( request.json.get('lemmat') )
+#    return jsonify({'data': lemmatized })
 
-        if (v.analyze(word)):
-            lemmas.append(v.analyze(word)[0]['BASEFORM'])
-        else:
-            lemmas.append(word)
+@app.route('/')
+@app.route('/<name>')
+def index(name=None):
+    return render_template('index.html', name=name)
 
-    return' '.join(lemmas)
+if __name__ == "__main__":
+    app.run(debug=True, use_reloader=True)
