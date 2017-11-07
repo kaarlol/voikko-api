@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="utf-8">
+    <title>Voikko lemmatisointi</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+      body {
+        font-size: 1.8em;
+      }
+
+      .row {
+        margin-top: 10px;
+      }
+
+      h1 {
+        padding-bottom: 20px;
+      }
+
+      p {
+        margin-top: 20px;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#lemmatisoi').on('click', function() {
+            sendToLemma();
+        });
+
+        $('#txt').keypress(function(e) {
+            if (e.which == 13) {
+                sendToLemma();
+            }
+        });
+
+        function sendToLemma() {
+            if ($('#txt').val() != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "/api",
+                    data: '{"lemmat": "' + $('#txt').val() + '" }',
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(data) {
+                        $('#outputs').append(new Date().toLocaleTimeString() + ': ' + data.data + '<br>');
+                        //console.log(data);
+                        $('#txt').val('');
+                    },
+                    error: function(data) {
+                        console.log("fail");
+                    }
+                });
+            }
+        };
+    });
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-sm-1"></div>
+            <div class="col-lg-6 col-sm-10">
+                <h1>Testaa lemmatisointia</h1>
+                <br>
+                <div class="form-group">
+                  <label for="inputdefault">Lemmatisoitava teksti:</label>
+                  <input class="form-control" id="txt" type="text">
+                </div>
+              <br>
+              <button type="button" class="btn btn-primary btn-lg" id="lemmatisoi">Lemmatisoi</button>
+              <br>
+              <p>
+                <b>Lemmatisoidut sanat:</b>
+              </p>
+              <p id="outputs">
+
+              </p>
+            </div>
+            <div class="col-lg-3 col-sm-1"></div>
+
+        </div>
+    </div>
+</body>
+
+</html>

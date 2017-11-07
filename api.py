@@ -1,14 +1,17 @@
 from flask import Flask
-from flask import request, jsonify
-from flask_cors import CORS
+from flask import request, jsonify, render_template
 from app import lemmatisoi
 app = Flask(__name__)
-CORS(app)
 
 @app.route("/api", methods=['POST'])
 def post_voikko():
     lemmatized = lemmatisoi( request.json.get('lemmat') )
     return jsonify({'data': lemmatized })
+
+@app.route('/')
+@app.route('/<name>')
+def index(name=None):
+    return render_template('index.html', name=name)
 
 if __name__ == "__main__":
     app.run(port=5000)
