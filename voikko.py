@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#import libvoikko, codecs
+import libvoikko, codecs
 from nltk.tokenize import word_tokenize
 
 v = libvoikko.Voikko(u"fi")
